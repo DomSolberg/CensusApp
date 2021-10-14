@@ -1,22 +1,4 @@
----
-title: "433-CensusApp-HW"
-author: "Dominic Solberg"
-date: "10/10/2021"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
-library(maps)
-library(mapproj)
-setwd("~/thing")
-source("./CensusApp/helpers.R")
-counties <- readRDS("./CensusApp/data/counties.rds")
-percent_map(counties$white, "darkgreen", "% White")
-```
-
-```{r}
 library(maps)
 library(mapproj)
 source("helpers.R")
@@ -50,23 +32,21 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$map <- renderPlot({
     args <- switch(input$var,
-      "Percent White" = list(counties$white, "darkgreen", "% White"),
-      "Percent Black" = list(counties$black, "black", "% Black"),
-      "Percent Hispanic" = list(counties$hispanic, "darkorange", "% Hispanic"),
-      "Percent Asian" = list(counties$asian, "darkviolet", "% Asian"))
-        
+                   "Percent White" = list(counties$white, "darkgreen", "% White"),
+                   "Percent Black" = list(counties$black, "black", "% Black"),
+                   "Percent Hispanic" = list(counties$hispanic, "darkorange", "% Hispanic"),
+                   "Percent Asian" = list(counties$asian, "darkviolet", "% Asian"))
+    
     args$min <- input$range[1]
     args$max <- input$range[2]
-  
+    
     do.call(percent_map, args)
   })
 }
 
 # Run app
 shinyApp(ui, server)
-```
 
-```{r}
-runGitHub("CensusApp", "DomSolberg")
-```
+#runGitHub("CensusApp", "DomSolberg")
+
 
